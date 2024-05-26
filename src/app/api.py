@@ -7,10 +7,20 @@ from app import bs_logic as bl
 
 app = FastAPI()
 
+@app.post("/test")
+def create_acquisition(item: schemas.Acquisition):
+    itm = jsonable_encoder(item)
+    resp = {"content": itm,
+            "status_code": 200}
+    
+    return JSONResponse(content=resp.get("content"),
+                        status_code=resp.get("status_code"))
+
 # Create adquisitions
 @app.post("/acquisition")
 def create_acquisition(item: schemas.Acquisition):
     resp = bl.insert_acquisition(jsonable_encoder(item))
+    
     return JSONResponse(content=resp.get("content"),
                         status_code=resp.get("status_code"))
 

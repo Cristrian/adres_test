@@ -6,13 +6,13 @@ from pydantic import BaseModel, Field
 class Acquisition(BaseModel):
     budget: float
     unit: str
-    ac_type: str
+    acq_type: str
     quantity: int
     cost_per_unit: float
     total_value: float
     adquisition_date: str
     supplier: str
-    documentation: Optional[str]
+    documentation: Optional[str] = None
     
 class UpdateAcquisition(BaseModel):
     budget: Optional[float]
@@ -27,14 +27,14 @@ class UpdateAcquisition(BaseModel):
 
 
 class SearchAcquisition(BaseModel):
-    budget: Optional[float]
-    unit: Optional[str]
-    ac_type: Optional[str]
-    quantity: Optional[int]
-    cost_per_unit: Optional[float]
-    total_value: Optional[float]
-    adquisition_date: Optional[str]
-    supplier: Optional[str]
+    budget: Optional[float] = None
+    unit: Optional[str] = None
+    ac_type: Optional[str] = None
+    quantity: Optional[int] = None
+    cost_per_unit: Optional[float] = None
+    total_value: Optional[float] = None
+    adquisition_date: Optional[str] = None
+    supplier: Optional[str] = None
 
 
 class Record(BaseModel):
