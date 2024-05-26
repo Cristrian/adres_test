@@ -11,12 +11,12 @@ def exec_statement(con: sqlite3.Connection, stm: str, params: Union[dict, tuple]
     # Creates cursor and execute it
     cursor = con.cursor()
     exec_result = cursor.execute(stm, params)
-    total_rows = exec_result.rowcount
+    insert_rows = exec_result.rowcount
     result = exec_result.fetchall()
     con.commit()
     con.close()
     resp = {"result": result,
-            "total_rows": total_rows}
+            "insert_rows": insert_rows}
     return resp
 
 
@@ -63,6 +63,7 @@ def generate_values_fields(data: dict) -> str:
     Returns:
         str: string with values
     """
+    table_fields = ""
     for i, key in enumerate(data.keys()):
         if i == 0:
             table_fields = table_fields + "(:" + key

@@ -26,9 +26,9 @@ def create_acquisition(item: schemas.Acquisition):
 
 
 # Read adquisitions
-@app.get("/acquisition") 
+@app.post("/acquisition:search") 
 def read_acquisition(search_criteria: dict):
-    resp = bl.insert_acquisition(jsonable_encoder(search_criteria))
+    resp = bl.search_acquisitions(jsonable_encoder(search_criteria))
     return JSONResponse(content=resp.get("content"),
                         status_code=resp.get("status_code"))
 

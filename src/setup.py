@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv(override=True)
 
 if __name__ == "__main__":
-    datab = "src/" + os.getenv("DATABASE")
+    datab = os.getenv("DATABASE")
     con = sqlite3.Connection(database=datab)
     cursor = con.cursor()
     
@@ -20,8 +20,8 @@ if __name__ == "__main__":
            "quantity integer,"
            "cost_per_unit real,"
            "total_value real,"
-           "adquisition_date text"
-           "supplier text"
+           "adquisition_date text,"
+           "supplier text,"
            "documentation text)"
            )
     cursor.execute(stm_acq)
@@ -30,4 +30,5 @@ if __name__ == "__main__":
            "(id integer primary key autoincrement, "
            "update_details text,"
            "record_date text)")
+    con.commit()
     con.close()
