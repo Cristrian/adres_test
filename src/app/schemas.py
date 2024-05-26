@@ -1,5 +1,6 @@
 # File for the schemas and validation
 
+from typing import Optional
 from pydantic import BaseModel, Field
 
 class Acquisition(BaseModel):
@@ -11,7 +12,29 @@ class Acquisition(BaseModel):
     total_value: float
     adquisition_date: str
     supplier: str
-    documentation: str
+    documentation: Optional[str]
+    
+class UpdateAcquisition(BaseModel):
+    budget: Optional[float]
+    unit: Optional[str]
+    ac_type: Optional[str]
+    quantity: Optional[int]
+    cost_per_unit: Optional[float]
+    total_value: Optional[float]
+    adquisition_date: Optional[str]
+    supplier: Optional[str]
+    documentation: Optional[str]
+
+
+class SearchAcquisition(BaseModel):
+    budget: Optional[float]
+    unit: Optional[str]
+    ac_type: Optional[str]
+    quantity: Optional[int]
+    cost_per_unit: Optional[float]
+    total_value: Optional[float]
+    adquisition_date: Optional[str]
+    supplier: Optional[str]
 
 
 class Record(BaseModel):
