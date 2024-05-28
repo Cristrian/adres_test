@@ -32,13 +32,19 @@ def insert_db(table_name:str, data: dict) -> dict:
     Returns:
         dict: response with result
     """
-    values = generate_values_fields(data)
+    values, data_tuple = generate_values_fields(data)
     stm = f"INSERT INTO {table_name} Values{values}"
-    result = exec_statement(
-        con=db_con(os.getenv("DATABASE")),
-        stm=stm,
-        params=data
-    )
+    con = db_con(os.getenv("DATABASE"))
+    try:
+        result = exec_statement(
+            con=con,
+            stm=stm,
+            params=data_tuple
+        )
+    except Exception as e:
+        result = {"result": e.__str__(),
+                  "insert_rows": 0}
+        con.close()
     
     return result
 
@@ -46,11 +52,26 @@ def insert_db(table_name:str, data: dict) -> dict:
 # Search data
 def search_db(table_name:str, criteria: dict):
     stm = f"SELECT * FROM {table_name}"
-    result = exec_statement(
-        con=db_con(os.getenv("DATABASE")),
-        stm=stm,
-        params=()
-    )
+    params = ()
+    for i, key in enumerate(criteria):
+        if i == 0:
+            stm = stm + f" WHERE {key} = ?"
+        else:
+            stm = stm + f" AND {key} = ?"
+        params = params +(criteria.get(key), )
+    
+    try:
+        con = db_con(os.getenv("DATABASE"))
+        result = exec_statement(
+            con=con,
+            stm=stm,
+            params=params
+        )
+    except Exception as e:
+        result = {"result": e.__str__(),
+                  "insert_rows": 0}
+        con.close()
+        
     return result
 
 
@@ -64,6 +85,7 @@ def generate_values_fields(data: dict) -> str:
         str: string with values
     """
     table_fields = ""
+    data_tuple = ()
     for i, key in enumerate(data.keys()):
         if i == 0:
             table_fields = table_fields + "(:" + key
@@ -71,4 +93,5 @@ def generate_values_fields(data: dict) -> str:
             table_fields = table_fields + f",:{key})"
         else:
             table_fields = table_fields + ",:" + key
-    return table_fields
+        data_tuple = data_tuple + (data.get(key),)
+    return table_fields, data_tuple

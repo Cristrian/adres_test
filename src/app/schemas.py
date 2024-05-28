@@ -4,6 +4,7 @@ from typing import Optional
 from pydantic import BaseModel, Field
 
 class Acquisition(BaseModel):
+    id: Optional[int] = None
     budget: float
     unit: str
     acq_type: str
@@ -12,7 +13,7 @@ class Acquisition(BaseModel):
     total_value: float
     adquisition_date: str
     supplier: str
-    documentation: Optional[str] = None
+    documentation: Optional[str]
     
 class UpdateAcquisition(BaseModel):
     budget: Optional[float]

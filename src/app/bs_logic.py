@@ -9,7 +9,8 @@ def insert_acquisition(acq: dict) -> dict:
         if insert_result.get("insert_rows") == 1:
             msg = "El elemento fue insertado exitosamente."
         else:
-            msg = "Hubo un error ingresando el elemento."
+
+            msg = "Hubo un error ingresando el elemento. " + insert_result.get("result") 
             
         #TODO Historial de creación de elemento
         resp = {"content": msg,
