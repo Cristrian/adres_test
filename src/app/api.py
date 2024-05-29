@@ -1,3 +1,4 @@
+from typing import Optional
 from fastapi import FastAPI
 from app import schemas
 from fastapi.encoders import jsonable_encoder
@@ -42,23 +43,15 @@ def read_acquisition(search_criteria: dict):
 # Update adquisitions
 # Deactivate adquisitions
 @app.put("/acquisition")
-def update_acquisition(item: schemas.UpdateAcquisition):
-    resp = bl.update_acquisition(jsonable_encoder(item))
+def update_acquisition(id:int, item: schemas.UpdateAcquisition):
+    resp = bl.update_acquisition(id, jsonable_encoder(item, exclude_none=True))
     return JSONResponse(content=resp.get("content"),
                         status_code=resp.get("status_code"))
 
+# Read Record
 
-# Create history
-@app.post("/history")
-def create_history(item: schemas.Record):
-    resp = bl.insert_acquisition(jsonable_encoder(item))
-    return JSONResponse(content=resp.get("content"),
-                        status_code=resp.get("status_code"))
-# Read history
-
-
-@app.get("/history")
-def read_history(search_criteria: dict):
-    resp = bl.insert_acquisition(jsonable_encoder(search_criteria))
+@app.get("/record")
+def read_history(date: str = None):
+    resp = bl.search_record(date=date)
     return JSONResponse(content=resp.get("content"),
                         status_code=resp.get("status_code"))

@@ -22,13 +22,16 @@ if __name__ == "__main__":
            "total_value real,"
            "adquisition_date text,"
            "supplier text,"
-           "documentation text)"
+           "documentation text,"
+           "active integer)"
            )
     cursor.execute(stm_acq)
     
     stm_record=(f"CREATE TABLE {record_table}" 
            "(id integer primary key autoincrement, "
            "update_details text,"
+           "action text,"
            "record_date text)")
+    cursor.execute(stm_record)
     con.commit()
     con.close()

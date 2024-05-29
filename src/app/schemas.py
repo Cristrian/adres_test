@@ -13,18 +13,20 @@ class Acquisition(BaseModel):
     total_value: float
     adquisition_date: str
     supplier: str
-    documentation: Optional[str]
+    documentation: Optional[str] = None
+    active: int = 1
     
 class UpdateAcquisition(BaseModel):
-    budget: Optional[float]
-    unit: Optional[str]
-    ac_type: Optional[str]
-    quantity: Optional[int]
-    cost_per_unit: Optional[float]
-    total_value: Optional[float]
-    adquisition_date: Optional[str]
-    supplier: Optional[str]
-    documentation: Optional[str]
+    budget: Optional[float] = None
+    unit: Optional[str] = None
+    ac_type: Optional[str] = None
+    quantity: Optional[int] = None
+    cost_per_unit: Optional[float] = None
+    total_value: Optional[float] = None
+    adquisition_date: Optional[str] = None
+    supplier: Optional[str] = None
+    documentation: Optional[str] = None
+    active: Optional[int] = None
 
 
 class SearchAcquisition(BaseModel):

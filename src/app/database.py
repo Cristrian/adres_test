@@ -1,3 +1,4 @@
+""" Module for all the database operations"""
 import os
 import sqlite3
 from typing import Union
@@ -6,18 +7,28 @@ def db_con(db_name):
     con = sqlite3.connect(db_name)
     return con
 
+def dict_factory(cursor, row):
+    # Factory to get the results with its collumn
+    fields = [column[0] for column in cursor.description]
+    return {key: value for key, value in zip(fields, row)}
+
 # execute statement
 def exec_statement(con: sqlite3.Connection, stm: str, params: Union[dict, tuple]):
     # Creates cursor and execute it
+    if "SELECT" in stm:
+        # We set a row factory to get the response with column names
+        con.row_factory = dict_factory
     cursor = con.cursor()
     exec_result = cursor.execute(stm, params)
     insert_rows = exec_result.rowcount
+    inserted_id = exec_result.lastrowid
     result = exec_result.fetchall()
     con.commit()
     con.close()
     resp = {"result": result,
             "insert_rows": insert_rows,
-            "status_code": 200}
+            "status_code": 200,
+            "inserted_id": inserted_id}
     return resp
 
 
@@ -44,7 +55,8 @@ def insert_db(table_name:str, data: dict) -> dict:
         )
     except Exception as e:
         result = {"result": e.__str__(),
-                  "insert_rows": 0}
+                  "insert_rows": 0,
+                  "status_code": 500}
         con.close()
     
     return result
@@ -69,19 +81,24 @@ def search_db(table_name:str, criteria: dict):
             params=params
         )
     except Exception as e:
-        result = {"result": e.__str__(),
-                  "insert_rows": 0}
+        result = {"result": "Error buscando:" + e.__str__(),
+                  "status_code": 500}
         con.close()
         
     return result
 
 
 def update_db(table_name: str,object_id: int, update_criteria: dict):
+    
     stm = f"UPDATE {table_name} SET "
     params = ()
+    # Snippet that creates the update statement
     for i, collumn in enumerate(update_criteria):
         new_value = update_criteria.get(collumn)
-        stm = stm + f"{collumn} = ? "
+        if i == len(update_criteria) - 1 :
+            stm = stm + f"{collumn} = ? "
+        else:
+            stm = stm + f"{collumn} = ?,"
         params = params + (new_value,)
     try:
         con = db_con(os.getenv("DATABASE"))
@@ -90,12 +107,14 @@ def update_db(table_name: str,object_id: int, update_criteria: dict):
             stm=stm,
             params=params
         )
+        result["result"] = "El elemento se ha actualizado correctamente"
     except Exception as e:
         result = {"result": e.__str__(),
                   "status_code": 500}
         con.close()
     
     return result
+
 
 def generate_values_fields(data: dict) -> str:
     """Generates values fields string for insert statement
@@ -117,3 +136,4 @@ def generate_values_fields(data: dict) -> str:
             table_fields = table_fields + ",:" + key
         data_tuple = data_tuple + (data.get(key),)
     return table_fields, data_tuple
+
