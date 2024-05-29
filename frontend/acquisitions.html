@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Adquisiciones</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Administrar Adquisiciones</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="acquisitions.html">Administrar Adquisiciones</a></li>
+                <li><a href="records.html">Historial de Transacciones</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="actions">
+            <button onclick="showForm('create')">Crear</button>
+            <button onclick="showForm('edit')">Editar</button>
+            <button onclick="showForm('delete')">Borrar</button>
+            <button onclick="showForm('search')">Buscar</button>
+        </div>
+        <div id="form-container">
+            <!-- Los formularios se insertarán de manera dinámica -->
+        </div>
+        <div id="results-container">
+            <!-- Los formularios se insertarán de manera dinámica -->
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Sistema de administración de adquisisones</p>
+    </footer>
+    <script src="js/acq.js"></script>
+</body>
+</html>

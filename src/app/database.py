@@ -66,6 +66,7 @@ def insert_db(table_name:str, data: dict) -> dict:
 def search_db(table_name:str, criteria: dict):
     stm = f"SELECT * FROM {table_name}"
     params = ()
+    
     for i, key in enumerate(criteria):
         if i == 0:
             stm = stm + f" WHERE {key} = ?"

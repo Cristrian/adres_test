@@ -2,9 +2,9 @@ import os
 import sqlite3
 from dotenv import load_dotenv
 
-load_dotenv(override=True)
-
-if __name__ == "__main__":
+def setup_database():
+    load_dotenv(override=True)
+    print("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")  
     datab = os.getenv("DATABASE")
     con = sqlite3.Connection(database=datab)
     cursor = con.cursor()
@@ -35,3 +35,4 @@ if __name__ == "__main__":
     cursor.execute(stm_record)
     con.commit()
     con.close()
+    return None

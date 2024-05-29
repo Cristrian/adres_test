@@ -1,7 +1,7 @@
 """Module that contains all the bussiness logic"""
 import os
 from typing import Optional
-from app import database
+from src.app import database
 from datetime import datetime
 # insert acquisition
 def insert_acquisition(acq: dict) -> dict:
@@ -59,9 +59,10 @@ def update_acquisition(id: int, acq: dict) -> dict:
 
 # search acquisitions
 def search_acquisitions(search_criteria: dict) -> dict:
+    new_search = {k:v for (k,v) in search_criteria.items() if v}
     search_result = database.search_db(table_name=os.getenv("ACQUIS_TABLE"),
-                              criteria=search_criteria)
-    resp = {"content": search_result,
+                              criteria=new_search)
+    resp = {"content": search_result.get("result"),
             "status_code": 200}
     return resp
 

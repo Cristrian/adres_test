@@ -1,12 +1,18 @@
+from pathlib import Path
 from typing import Optional
 from fastapi import FastAPI
-from app import schemas
+from src.app import schemas
 from fastapi.encoders import jsonable_encoder
 from starlette.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from app import bs_logic as bl
-
+from src.app import bs_logic as bl
+from src.setup import setup_database 
 app = FastAPI()
+
+
+if not Path('adres.db').is_file():
+    setup_database()
+
 
 app.add_middleware(
     CORSMiddleware,
