@@ -43,7 +43,7 @@ def read_acquisition(search_criteria: dict):
 # Deactivate adquisitions
 @app.put("/acquisition")
 def update_acquisition(item: schemas.UpdateAcquisition):
-    resp = bl.insert_acquisition(jsonable_encoder(item))
+    resp = bl.update_acquisition(jsonable_encoder(item))
     return JSONResponse(content=resp.get("content"),
                         status_code=resp.get("status_code"))
 

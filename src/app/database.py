@@ -16,7 +16,8 @@ def exec_statement(con: sqlite3.Connection, stm: str, params: Union[dict, tuple]
     con.commit()
     con.close()
     resp = {"result": result,
-            "insert_rows": insert_rows}
+            "insert_rows": insert_rows,
+            "status_code": 200}
     return resp
 
 
@@ -74,6 +75,27 @@ def search_db(table_name:str, criteria: dict):
         
     return result
 
+
+def update_db(table_name: str,object_id: int, update_criteria: dict):
+    stm = f"UPDATE {table_name} SET "
+    params = ()
+    for i, collumn in enumerate(update_criteria):
+        new_value = update_criteria.get(collumn)
+        stm = stm + f"{collumn} = ? "
+        params = params + (new_value,)
+    try:
+        con = db_con(os.getenv("DATABASE"))
+        result = exec_statement(
+            con=con,
+            stm=stm,
+            params=params
+        )
+    except Exception as e:
+        result = {"result": e.__str__(),
+                  "status_code": 500}
+        con.close()
+    
+    return result
 
 def generate_values_fields(data: dict) -> str:
     """Generates values fields string for insert statement

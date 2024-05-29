@@ -2,6 +2,14 @@ import os
 from app import database
 # insert acquisition
 def insert_acquisition(acq: dict) -> dict:
+    """Insert a new acquisition in the database
+
+    Args:
+        acq (dict): dict following the acquisiton schema
+
+    Returns:
+        dict: _description_
+    """
     try:
         acq["id"] = None
         insert_result = database.insert_db(os.getenv("ACQUIS_TABLE"),
@@ -23,7 +31,11 @@ def insert_acquisition(acq: dict) -> dict:
 
 # update acquisition
 def update_acquisition(acq: dict) -> dict:
-    return
+    upd_result = database.update_db(table_name=os.getenv("ACQUIS_TABLE"),
+                                    update_criteria=acq)
+    resp = {"content": upd_result.get("result"),
+            "status_code": upd_result.get("status_code")}
+    return resp
 
 # search acquisitions
 def search_acquisitions(search_criteria: dict) -> dict:
