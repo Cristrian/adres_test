@@ -1,9 +1,17 @@
 services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - api
   api:
-    build: .
+    build: 
+      context: ./backend
     container_name: adres_app
     env_file:
-      - .env
+      - ./backend/.env
     ports:
-      - '8000:80'
+      - '8000:88'
     restart: "no"

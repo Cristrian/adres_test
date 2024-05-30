@@ -2,8 +2,8 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 import uvicorn
-from src.app.api import app
-from src.setup import setup_database
+from backend.app.api import app
+from backend.setup import setup_database
 load_dotenv(override=True)
 
 

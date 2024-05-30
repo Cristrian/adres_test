@@ -1,7 +1,7 @@
 """Module that contains all the bussiness logic"""
 import os
 from typing import Optional
-from src.app import database
+from backend.app import database
 from datetime import datetime
 # insert acquisition
 def insert_acquisition(acq: dict) -> dict:

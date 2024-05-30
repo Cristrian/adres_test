@@ -1,12 +1,13 @@
 from pathlib import Path
 from typing import Optional
 from fastapi import FastAPI
-from src.app import schemas
 from fastapi.encoders import jsonable_encoder
 from starlette.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from src.app import bs_logic as bl
-from src.setup import setup_database 
+
+from backend.app import bs_logic as bl
+from backend.app import schemas
+from backend.setup import setup_database 
 app = FastAPI()
 
 
